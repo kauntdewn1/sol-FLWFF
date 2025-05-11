@@ -25,16 +25,6 @@ const HeaderListCommunity = () => {
             {communityInvolvedItems[0].description}
           </Link>
           <Link
-            to="/events"
-            className="nav-link nav-link--secondary"
-            activeClassName="active"
-          >
-            <strong className="d-block text-white">
-              {communityInvolvedItems[1].title}
-            </strong>
-            {communityInvolvedItems[1].description}
-          </Link>
-          <Link
             to="https://www.solanacollective.com/"
             className="nav-link nav-link--secondary"
             target="_blank"

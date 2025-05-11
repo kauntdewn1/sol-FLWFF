@@ -36,7 +36,6 @@ const HeaderList = () => {
     asPath === "/validators" || asPath === "/rpc" || asPath === "/solanaramp";
   const isCommunityActive =
     asPath === "/community" ||
-    asPath.includes("/events") ||
     asPath === "/breakpoint" ||
     asPath === "/news";
 
