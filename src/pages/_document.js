@@ -1,4 +1,4 @@
-import Document, { Head, Html, Main, NextScript } from "next/document";
+import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from "styled-components";
 import { config } from "src/config";
 
@@ -32,6 +32,7 @@ class MyDocument extends Document {
     const id = config.siteMetadata.googleTagManagerID;
 
     return (
+      <Html>
         <Head />
         <body>
           {/* Google Tag Manager (noscript) */}

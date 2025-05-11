@@ -1,7 +1,8 @@
 import { formatInTimeZone } from "date-fns-tz";
 import { isString } from "./stringUtils";
-import { add, format } from "date-fns";
+import { add, format, parseISO } from "date-fns";
 import { parse as parseDurationString } from "tinyduration";
+import { ptBR } from 'date-fns/locale';
 
 export const defaultDateStringOptions = {
   weekday: "long",
@@ -26,15 +27,9 @@ export const toLocaleString = (
  * @param {Date|string} date  The given date.
  * @returns {string}
  */
-export const formatDateTime = (date) => {
-  const dateTime = new Date(date);
-  let hours = dateTime.getUTCHours();
-  let minutes = dateTime.getUTCMinutes();
-  hours = hours < 10 ? `0${hours}` : hours;
-  minutes = minutes < 10 ? `0${minutes}` : minutes;
-  return `${
-    dateTime.getUTCMonth() + 1
-  }/${dateTime.getUTCDate()}/${dateTime.getUTCFullYear()} ${hours}:${minutes}`;
+export const formatDateTime = (dateString) => {
+  const date = parseISO(dateString);
+  return format(date, "d 'de' MMMM 'de' yyyy 'às' HH:mm", { locale: ptBR });
 };
 
 /**
@@ -95,9 +90,10 @@ export const fixDate = (dateString) => {
  * @param timezone
  * @returns {string}
  */
-export const formatDate = (date, dateFormat, timezone) =>
-  !!timezone && timezone !== "undefined"
-    ? formatInTimeZone(date, timezone, dateFormat)
+export const formatDate = (dateString) => {
+  const date = parseISO(dateString);
+  return format(date, "d 'de' MMMM 'de' yyyy", { locale: ptBR });
+};
 
 /**
  * Converts ISO-8601 Duration string to Duration obj
@@ -125,3 +121,40 @@ export function addDuration(date, duration) {
   const durationObj = parseDuration(duration);
   return durationObj ? add(date, durationObj) : date;
 }
+
+export const formatDateShort = (dateString) => {
+  const date = parseISO(dateString);
+  return format(date, 'dd/MM/yyyy', { locale: ptBR });
+};
+
+export const isDateValid = (dateString) => {
+  const date = new Date(dateString);
+  return date instanceof Date && !isNaN(date);
+};
+
+export const getRelativeTime = (dateString) => {
+  const date = parseISO(dateString);
+  const now = new Date();
+  const diffInSeconds = Math.floor((now - date) / 1000);
+
+  if (diffInSeconds < 60) {
+    return 'agora mesmo';
+  }
+
+  const diffInMinutes = Math.floor(diffInSeconds / 60);
+  if (diffInMinutes < 60) {
+    return `${diffInMinutes} ${diffInMinutes === 1 ? 'minuto' : 'minutos'} atrás`;
+  }
+
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  if (diffInHours < 24) {
+    return `${diffInHours} ${diffInHours === 1 ? 'hora' : 'horas'} atrás`;
+  }
+
+  const diffInDays = Math.floor(diffInHours / 24);
+  if (diffInDays < 7) {
+    return `${diffInDays} ${diffInDays === 1 ? 'dia' : 'dias'} atrás`;
+  }
+
+  return formatDate(dateString);
+};

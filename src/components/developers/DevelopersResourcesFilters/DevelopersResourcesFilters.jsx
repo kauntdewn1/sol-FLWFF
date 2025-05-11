@@ -1,10 +1,13 @@
 "use client";
 
+import React, { useState } from 'react';
 import { useRouter, useSearchParams } from "next/navigation";
 import classNames from "classnames";
 import styles from "./DevelopersResourcesFilters.module.scss";
 
 function Filters({ filters, onReset, onToggle, activeFilters = new Map() }) {
+  const [activeFilter, setActiveFilter] = useState('all');
+
   return (
     <div className={styles["developers-resources-filters"]}>
       <h5 className={styles["developers-resources-filters__title"]}>Filters</h5>
@@ -33,12 +36,16 @@ function Filters({ filters, onReset, onToggle, activeFilters = new Map() }) {
                   >
                     <button
                       type="button"
-                      onClick={() => onToggle(key, filter)}
+                      onClick={() => {
+                        setActiveFilter(filter);
+                        onToggle(key, filter);
+                      }}
                       className={classNames(
                         styles["developers-resources-filters__filter-btn"],
                         {
                           [styles[
                             "developers-resources-filters__filter-btn--active"
+                          }]: activeFilter === filter,
                         },
                       )}
                     >

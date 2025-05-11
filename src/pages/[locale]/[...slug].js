@@ -45,53 +45,31 @@ const Page = ({ page, builderLocale }) => {
 };
 
 export async function getStaticPaths() {
-  try {
-    const allPages = await getAllPagesWithSlug();
+  const allPages = await getAllPagesWithSlug();
+  const paths = [];
 
-    const slugs = await allPages
-      ?.filter((page) => page.data.slug[0] !== "/")
-      ?.map((page) => page.data.slug.spli/);
+  allPages?.forEach((page) => {
+    if (page.data.slug) {
+      const slugs = page.data.slug.split('/');
+      paths.push({
+        params: { slug: slugs },
+      });
+    }
+  });
 
-    return {
-      paths,
-      fallback: "blocking",
-    };
-  } catch (error) {
-    console.error("[getStaticPaths] Error:", {
-      message: error.message,
-      stack: error.stack,
-    });
-    return {
-      paths: [],
-      fallback: "blocking",
-    };
-  }
+  return {
+    paths,
+    fallback: false,
+  };
 }
 
 export async function getStaticProps({ params }) {
-  try {
-    let slug =
-      params?.slug && Array.isArray(params?.slug)
-        ? params.slug.join("/")
-        : params.slug;
-
-    if (!slug) {
-      return { notFound: true };
-    }
-
-
-    return {
-      props: {
-        key: page?.id + page?.data.slug + params.slug,
-        builderLocale,
-        page: page || null,
-      },
-      revalidate: 60,
-    };
-  } catch (error) {
-    console.error(error);
-    return { notFound: true };
-  }
+  const page = await getPage(params.slug);
+  return {
+    props: {
+      page,
+    },
+  };
 }
 
 export default Page;

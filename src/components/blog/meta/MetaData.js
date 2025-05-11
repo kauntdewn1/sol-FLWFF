@@ -1,5 +1,6 @@
+import React from "react";
 import url from "url";
-import { config } from "src/config";
+import config from "../../../config";
 import ArticleMeta from "./ArticleMeta";
 import WebsiteMeta from "./WebsiteMeta";
 import { useRouter } from "next/router";
@@ -12,7 +13,7 @@ import { useRouter } from "next/router";
 const MetaData = ({ data = {}, settings = {} }) => {
   const canonical = url.resolve(
     config.siteUrl,
-    asPath.spli?[0].spli#[0],
+    asPath.split("#")[0]
   );
   const { builderPost, builderTag } = data;
 

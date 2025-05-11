@@ -1,27 +1,29 @@
+const { i18n } = require('./next-i18next.config');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  i18n,
   reactStrictMode: true,
-  webpack: (config) => {
-    config.infrastructureLogging = {
-      level: 'error',
-    };
-    return config;
-  },
-  // Configurações de imagens
   images: {
-    domains: [
-      'solana.com',
-      'raw.githubusercontent.com',
-      'github.com',
-      'avatars.githubusercontent.com',
-      'pbs.twimg.com',
-      'abs.twimg.com'
-    ],
-    formats: ['image/avif', 'image/webp'],
+    domains: ['localhost', 'res.cloudinary.com'],
   },
-  // Configurações de performance
-  poweredByHeader: false,
-  compress: true,
-}
+  async redirects() {
+    return [
+      {
+        source: '/news',
+        destination: '/pt-BR/news',
+        permanent: true,
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/:path*`,
+      },
+    ];
+  },
+};
 
-module.exports = nextConfig 
+module.exports = nextConfig; 

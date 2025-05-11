@@ -1,19 +1,15 @@
-import { InlineLink } from "../shared/Link";
+import React from "react";
+import styles from "./BrandingWelcome.module.scss";
 
 const BrandingWelcome = () => {
-
   return (
-    <section>
-      <div className="h6">{branding.welcome.title}</div>
-      <p className="small">{branding.welcome.description}</p>
-      <p className="small">
-          components={{
-            guidelinesLink: (
-              <InlineLink to="https://drive.google.com/file/d/1o8fsSbD6wtRWizBW_3OrNYFtF9ZTr7iQ/view" />
-            ),
-          }}
-        />
-      </p>
+    <section className={styles.welcome}>
+      <div className="container">
+        <h1>Welcome to Solana Branding</h1>
+        <p>
+          Explore our branding guidelines and resources.
+        </p>
+      </div>
     </section>
   );
 };

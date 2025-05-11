@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../shared/Button";
 import classNames from "classnames";
 import styles from "./CookieConsent.module.scss";
@@ -36,69 +36,56 @@ const setLocalStorage = function (key, value) {
   localStorage.setItem(key, JSON.stringify(obj));
 };
 
-
-  // cookieConsent is blank by default
+const CookieConsent = () => {
   const [cookieConsent, setCookieConsent] = useState("");
 
-  // check if it has previously set within localStorage, or null otherwise
-    const consent = getLocalStorage("cookie_consent", null);
-
-    // set builderNoTrack based on the previously set consent
-    if (typeof window !== "undefined" && consent) {
-      window.builderNoTrack = !consent;
+  useEffect(() => {
+    const storedConsent = localStorage.getItem("cookieConsent");
+    if (storedConsent) {
+      setCookieConsent(storedConsent);
     }
   }, [setCookieConsent]);
 
-  // update when cookieConsent is changed via onClick
+  useEffect(() => {
     if (typeof window.gtag !== "undefined" && cookieConsent !== "") {
-      setLocalStorage("cookie_consent", cookieConsent);
       window.gtag("consent", "update", {
-        ad_storage: cookieConsent ? "granted" : "denied",
-        ad_user_data: cookieConsent ? "granted" : "denied",
-        ad_personalization: cookieConsent ? "granted" : "denied",
-        analytics_storage: cookieConsent ? "granted" : "denied",
+        analytics_storage: cookieConsent === "accepted" ? "granted" : "denied",
       });
-
-      window.builderNoTrack = !cookieConsent;
     }
   }, [cookieConsent]);
 
-  return (
-    <>
-      {cookieConsent === null ? (
-        <div
-          className={classNames(
-            "border bg-black p-4 rounded",
-            styles["cookie-consent"],
-          )}
-        >
-          <div className="small">
-            <p>{cookie-consent.title}</p>
-          </div>
+  const acceptCookies = () => {
+    setCookieConsent("accepted");
+    localStorage.setItem("cookieConsent", "accepted");
+  };
 
-          <div className="d-flex align-items-center justify-content-between smaller">
-            <div>
-              <Button
-                variant="captioned"
-                className="px-0"
-              >
-                {cookie-consent.button.optout}
-              </Button>
-              <Button
-                to="/privacy-policy#collection-of-information"
-                variant="captioned"
-                className="px-0 ms-4"
-              >
-                {cookie-consent.button.details}
-              </Button>
-            </div>
-              {cookie-consent.button.accept}
-            </Button>
-          </div>
+  const declineCookies = () => {
+    setCookieConsent("declined");
+    localStorage.setItem("cookieConsent", "declined");
+  };
+
+  if (cookieConsent !== "") {
+    return null;
+  }
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.content}>
+        <p>
+          Utilizamos cookies para melhorar sua experiência. Ao continuar navegando,
+          você concorda com nossa política de cookies.
+        </p>
+        <div className={styles.buttons}>
+          <button onClick={acceptCookies} className={styles.accept}>
+            Aceitar
+          </button>
+          <button onClick={declineCookies} className={styles.decline}>
+            Recusar
+          </button>
         </div>
-      ) : (
-        ""
-      )}
-    </>
+      </div>
+    </div>
   );
-}
+};
+
+export default CookieConsent;

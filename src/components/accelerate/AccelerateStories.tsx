@@ -1,13 +1,11 @@
-import { FC } from "react";
+import React from "react";
 import styles from "./AccelerateStories.module.scss";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
-export const AccelerateStories: FC<{ urls: { url: string }[] }> = ({
-  urls,
-}) => {
+const AccelerateStories = ({ urls }) => {
   var settings = {
     dots: false,
     infinite: false,
@@ -33,26 +31,22 @@ export const AccelerateStories: FC<{ urls: { url: string }[] }> = ({
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.stories}>
       <Slider {...settings}>
-        {urls &&
-          urls.map(({ url }, index) => {
-            const videoId =
-              url.spliv=[1]?.spli&[0] || url.spli/.pop();
-            return (
-              <div key={index} className={styles.card}>
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src={`https://www.youtube.com/embed/${videoId}&amp;controls=0`}
-                  title="YouTube video player"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen
-                ></iframe>
-              </div>
-            );
-          })}
+        {urls.map(({ url }, index) => {
+          const videoId = url.split("v=")[1]?.split("&")[0] || url.split("/").pop();
+          return (
+            <div key={index} className={styles.card}>
+              <iframe
+                src={`https://www.youtube.com/embed/${videoId}`}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          );
+        })}
       </Slider>
     </div>
   );
@@ -75,3 +69,5 @@ const CustomNextArrow = (props: any) => {
     </div>
   );
 };
+
+export default AccelerateStories;

@@ -1,7 +1,10 @@
+import React from 'react';
+import Layout from '../../../components/layout';
+import PublishedAt from '../../../components/blog/PublishedAt';
+import styles from './Post.module.scss';
 import { builder, BuilderComponent, useIsPreviewing } from "@builder.io/react";
 import NotFoundPage from "../404";
 import customComponentsRegistration from "@/utils/customComponentGenerator";
-import Layout from "@/components/layout";
 import {
   getAllPostSlugs,
   getPostAndMorePosts,
@@ -21,7 +24,7 @@ customComponentsRegistration();
  * This file renders a single post and loads all the content.
  *
  */
-const Post = ({ builderLocale, post, pageSettings }) => {
+const PostPage = ({ builderLocale, post, pageSettings }) => {
   const newsPostData = post?.data;
   const postSlug = `/news/${newsPostData?.slug}` || "/news";
 
@@ -52,12 +55,26 @@ const Post = ({ builderLocale, post, pageSettings }) => {
           shareIcons
           slug={postSlug}
         />
-        <article>
-          <BuilderComponent
-            options={{ includeRefs: true }}
-            model={NEWS_BUILDER_CONFIG.postsModel}
-            content={post}
-          />
+        <article className={styles.post}>
+          <div className="container py-5">
+            <header className={styles.header}>
+              <h1 className={styles.title}>{postTitle}</h1>
+              <PublishedAt date={publishedDate} />
+            </header>
+            {featuredImage && (
+              <div className={styles.imageContainer}>
+                <img 
+                  src={featuredImage} 
+                  alt={postTitle}
+                  className={styles.image}
+                />
+              </div>
+            )}
+            <div 
+              className={styles.content}
+              dangerouslySetInnerHTML={{ __html: newsPostData?.content }} 
+            />
+          </div>
         </article>
       </Layout>
     </>
@@ -66,7 +83,12 @@ const Post = ({ builderLocale, post, pageSettings }) => {
 
 export async function getStaticPaths() {
   const allPosts = await getAllPostSlugs(NEWS_BUILDER_CONFIG.postsModel);
+  const paths = allPosts.map((post) => ({
+    params: { slug: post.slug },
+  }));
+
   return {
+    paths,
     fallback: "blocking",
   };
 }
@@ -79,11 +101,9 @@ export async function getStaticProps({ params }) {
       return { notFound: true };
     }
 
-
     // sometimes links will contain a URL encoded character at the end (as exposed by Sentries).
     // make an effort to remove those so that the user doesnt get a 404
     // real example: 9-14-network-outage-initial-overview%22
-
     slug = slug.replace(/(%\d+)+$/, "");
 
     let { post, morePosts } = await getPostAndMorePosts(
@@ -110,4 +130,4 @@ export async function getStaticProps({ params }) {
   }
 }
 
-export default Post;
+export default PostPage;

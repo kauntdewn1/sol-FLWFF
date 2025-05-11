@@ -1,39 +1,41 @@
 "use client";
 
-import Navbar from "react-bootstrap/Navbar";
-import { useRouter } from "@/hooks/useRouter";
-import { Link } from "../utils/Link";
-import { useEffect } from "react";
-import SolanaLogo from "../../public/src/img/logos-solana/logotype.inline.svg";
-import Moon from "../../public/src/img/icons/Moon.inline.svg";
-import Sun from "../../public/src/img/icons/Sun.inline.svg";
-import HeaderList from "./header/HeaderList";
-import { InkeepSearchBar } from "@/app/components/inkeep/inkeep-searchbar";
-import { useTheme } from "@/themecontext";
-import DevelopersNav from "./developers/DevelopersNav/DevelopersNav";
+import React, { useEffect } from "react";
+import { Navbar } from "react-bootstrap";
+import Link from "next/link";
+import { useTranslation } from "react-i18next";
+import { useRouter } from "next/router";
+import { useTheme } from "../themecontext";
+import SolanaLogo from "./SolanaLogo";
+import HeaderList from "./HeaderList";
+import DevelopersNav from "./DevelopersNav";
+import InkeepSearchBar from "./InkeepSearchBar";
 import styles from "./Header.module.scss";
+import { Moon, Sun } from "lucide-react";
 
 const Header = ({ className = "", containerClassName = "" }) => {
+  const { t } = useTranslation();
   const router = useRouter();
-  const { theme, toggleTheme, isThemePage } = useTheme();
+  const { theme, toggleTheme } = useTheme();
+  const isThemePage = router.asPath.includes("/developers");
 
+  useEffect(() => {
     const navbar = document.getElementById("navbar");
     if (navbar) {
-      if (isThemePage) {
-        navbar.classList.remove("navbar-light", "navbar-dark");
-        navbar.classList.add("navbar-" + theme);
+      if (theme === "light") {
+        navbar.classList.remove("navbar-dark");
       } else {
         navbar.classList.add("navbar-dark");
       }
     }
-  }, [t, theme, isThemePage]);
+  }, [theme, isThemePage]);
 
   return (
     <>
       <header className={`position-sticky sticky-top ${className}`}>
         <Navbar id="navbar" expand="lg" variant="">
           <div className={`container-xl ${containerClassName}`}>
-            <Link to="/" className="d-flex" aria-label="Solana">
+            <Link href="/" className="d-flex" aria-label="Solana">
               <SolanaLogo
                 style={{ color: "var(--body-text)" }}
                 width={149}
@@ -59,7 +61,7 @@ const Header = ({ className = "", containerClassName = "" }) => {
                 <button
                   className={styles.header__toggle}
                   onClick={toggleTheme}
-                  aria-label={commands.toggle}
+                  aria-label={t("commands.toggle")}
                 >
                   {theme === "light" && <Moon />}
                   {theme === "dark" && <Sun />}
@@ -69,7 +71,6 @@ const Header = ({ className = "", containerClassName = "" }) => {
           </div>
         </Navbar>
       </header>
-      {/* Secondary nav for /developers/* and /docs/* */}
       {(router.asPath.includes("/developers") ||
         router.asPath.includes("/docs")) && (
         <DevelopersNav containerClassName={containerClassName} />

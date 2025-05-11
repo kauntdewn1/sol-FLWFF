@@ -1,44 +1,33 @@
-import languages from "../../public/json/languages.json";
-import { config } from "src/config";
+import React from "react";
+import { useRouter } from "next/router";
+import config from "../config";
+import { languages } from "../i18n/config";
 
-const cleanPath = (pathString) => {
-  try {
-    const url = new URL(pathString, config.siteUrl);
-    // Clear all search parameters
-    url.searchParams.forEach((value, name) => {
-      url.searchParams.delete(name);
-    });
-
-    // Return the cleaned Pathname
-    let cleanedPath = url.pathname.toString();
-    // Remove trailing slash if it exists
-    if (cleanedPath.endsWith("/")) {
-      cleanedPath = cleanedPath.slice(0, -1);
-    }
-    return cleanedPath;
-  } catch (error) {
-    console.error("Error cleaning Path:", error);
-    return urlString; // Return the original path in case of any error
-  }
+const cleanPath = (path) => {
+  return path.split("#")[0].split("?")[0];
 };
 
+const MetaLinks = () => {
+  const router = useRouter();
+  const { asPath } = router;
+  const asPathNoRedirect = asPath.replace(/\/$/, "");
   const cleanedAsPathNoRedirect = cleanPath(asPathNoRedirect);
+
   return (
     <>
       <link rel="icon" href="/favicon.png" type="image/png" />
       <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       <link rel="manifest" href="/site.webmanifest" />
-      {/* preferred canonical page */}
       <link
         rel="canonical"
-      ></link>
-      {/* hreflang localized variations of the same content */}
+        href={`${config.siteUrl}${cleanedAsPathNoRedirect}`}
+      />
       <link
         rel="alternate"
         hrefLang="x-default"
         href={`${config.siteUrl}${cleanedAsPathNoRedirect}`}
-      ></link>
+      />
       {Object.keys(languages).map((language, k) => (
         <link
           key={k}

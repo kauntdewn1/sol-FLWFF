@@ -1,20 +1,24 @@
+import React from "react";
 import PropTypes from "prop-types";
-import { toLocaleString } from "../../utils/dateUtils";
-import { useRouter } from "next/router";
+import { formatDate, getRelativeTime } from "../../utils/dateUtils";
 
 /**
  * Converts the Date and displays it.
  *
- * @param publishedDateString
+ * @param date
  * @returns {JSX.Element}
  * @constructor
  */
-const PublishedAt = ({ publishedDateString }) => {
-  return <time dateTime={publishedDateString}>{publishedAt}</time>;
+const PublishedAt = ({ date }) => {
+  return (
+    <time dateTime={date} title={formatDate(date)}>
+      {getRelativeTime(date)}
+    </time>
+  );
 };
 
 PublishedAt.propTypes = {
-  publishedDateString: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
 };
 
 export default PublishedAt;

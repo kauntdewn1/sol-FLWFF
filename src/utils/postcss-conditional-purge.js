@@ -5,16 +5,22 @@ module.exports = (opts = {}) => {
   const { ignore, ...rest } = opts;
   const purgePlugin = purgePluginCreator(rest);
   const originalOnceExit = purgePlugin.OnceExit;
+
   purgePlugin.OnceExit = function (...args) {
     const [root] = args;
     const filename = root?.source?.input?.file;
-    if (ignore && ignore.some(pattern => filename.match(pattern))) {
-      // console.log("ignoring", filename);
+
+    if (!filename) {
+      return originalOnceExit.apply(purgePlugin, arguments);
+    }
+
+    if (ignore && ignore.test(filename)) {
       return;
     }
-    // console.log("purging", filename);
+
     return originalOnceExit.apply(purgePlugin, arguments);
   };
+
   return purgePlugin;
 };
 

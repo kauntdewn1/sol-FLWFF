@@ -1,0 +1,25 @@
+.languageSelector {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: 1rem;
+}
+
+.languageButton {
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  color: var(--body-text);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--background-hover);
+  }
+
+  &.active {
+    background: var(--primary);
+    color: var(--primary-foreground);
+    border-color: var(--primary);
+  }
+} 

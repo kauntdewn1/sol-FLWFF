@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import styles from "./Footer.module.scss";
 import LanguageSelector from "../LanguageSelector";
 import Divider from "../shared/Divider";
@@ -13,17 +14,14 @@ import TelegramIcon from "../../../public/src/img/footer/telegram.inline.svg";
 import Link, { InlineLink } from "../../utils/Link";
 
 const CopyrightRow = () => {
-
   return (
     <span className={styles["solFooter__copyright"]}>
-        currentYear: new Date().getFullYear(),
-      })}
+      {`© ${new Date().getFullYear()} Solana Foundation. All rights reserved.`}
     </span>
   );
 };
 
 const Footer = () => {
-
   return (
     <div className={styles["solFooter"]}>
       <div className="container">

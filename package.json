@@ -39,6 +39,8 @@
     "fumadocs-core": "14.7.7",
     "fumadocs-ui": "14.7.7",
     "gray-matter": "^4.0.3",
+    "i18next": "^25.1.2",
+    "jquery": "^3.7.1",
     "lodash": "^4.17.21",
     "lucide-react": "^0.475.0",
     "mermaid": "^11.5.0",
@@ -52,6 +54,7 @@
     "react-countup": "^6.5.3",
     "react-dom": "^18.2.0",
     "react-feather": "^2.0.10",
+    "react-i18next": "^15.5.1",
     "react-intersection-observer": "^9.13.1",
     "react-markdown": "^9.0.1",
     "react-player": "^2.16.0",
@@ -72,8 +75,7 @@
     "uuid": "^11.1.0",
     "webpack": "^5.0.0",
     "yup": "^1.4.0",
-    "zod": "^3.24.1",
-    "jquery": "^3.7.1"
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.9",

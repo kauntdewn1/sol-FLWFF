@@ -1,10 +1,11 @@
-import { useRouter } from "@/hooks/useRouter";
-import { useEffect, useMemo, useState } from "react";
+import React from "react";
 
+const SolFormattedMessage = ({ value }) => {
   try {
+    return <>{value}</>;
   } catch (error) {
     console.error(error);
-    return value;
+    return <>{value}</>;
   }
 };
 
@@ -31,71 +32,33 @@ export const formatNumberHumanFriendly = (
   value,
   digits = 1,
   startDividing = 1e4,
-  options = {},
+  options = {}
 ) => {
   let dividend;
   switch (true) {
-    case value >= 1e18: {
+    case value >= 1e18:
       dividend = 1e18;
       break;
-    }
-    case value >= 1e15: {
+    case value >= 1e15:
       dividend = 1e15;
       break;
-    }
-    case value >= 1e12: {
+    case value >= 1e12:
       dividend = 1e12;
       break;
-    }
-    case value >= 1e9: {
+    case value >= 1e9:
       dividend = 1e9;
       break;
-    }
-    case value >= 1e6: {
+    case value >= 1e6:
       dividend = 1e6;
       break;
-    }
-    case value >= startDividing: {
+    case value >= startDividing:
       dividend = 1e3;
       break;
-    }
     default:
       dividend = 1;
   }
   const dividedDown = (value / dividend).toFixed(digits);
-  // console.log(value, dividedDown, dividend);
-    humanFriendlyNumbers[dividend]
-  }`;
+  return `${dividedDown}${humanFriendlyNumbers[dividend]}`;
 };
 
-export function FormattedNumber({ value, ...options }) {
-
-  const formatted = useMemo(() => {
-    try {
-    } catch (error) {
-      console.error(error);
-      return value;
-    }
-
-  return <>{formatted}</>;
-}
-
-export function FormattedDate({ value, ...options }) {
-  const [date, setDate] = useState(null);
-
-    setDate(value);
-  }, [value]);
-
-  const formatted = useMemo(() => {
-    if (!date) {
-      return null;
-    }
-
-    try {
-    } catch (error) {
-      console.error(error);
-      return date;
-    }
-
-  return <>{formatted}</>;
-}
+export default SolFormattedMessage;

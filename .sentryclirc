@@ -1,0 +1,7 @@
+[auth]
+token=${SENTRY_AUTH_TOKEN}
+
+[defaults]
+org=solana-foundation
+project=solana-community
+url=https://sentry.io/
