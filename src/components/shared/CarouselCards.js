@@ -135,26 +135,18 @@ const CarouselCards = ({ children }) => {
   const [dataPos, setDataPos] = useState("none");
   const [scroll, setScroll] = useState(Direction.NONE);
 
-    if (typeof window !== "undefined" && wrapperRef.current) {
-      const onScroll = () => {
-        window.requestAnimationFrame(() =>
-          setDataPos(
-            determineArrowPosition(wrapperRef.current, contentRef.current),
-          ),
-        );
-      };
+  const onScroll = useCallback(() => {
+    setDataPos(
+      determineArrowPosition(wrapperRef.current, contentRef.current),
+    );
+  }, []);
 
+  useEffect(() => {
+    if (typeof window !== "undefined" && wrapperRef.current) {
       wrapperRef.current.addEventListener("scroll", onScroll);
       return () => wrapperRef.current.removeEventListener("scroll", onScroll);
     }
-  }, []);
-
-    if (typeof window !== "undefined" && wrapperRef.current) {
-      setDataPos(
-        determineArrowPosition(wrapperRef.current, contentRef.current),
-      );
-    }
-  }, []);
+  }, [onScroll]);
 
   const stopScroll = useCallback(() => {
     setScroll(Direction.NONE);

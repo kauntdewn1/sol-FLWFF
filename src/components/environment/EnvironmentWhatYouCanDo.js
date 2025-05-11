@@ -38,14 +38,14 @@ export default function EnvironmentWhatYouCanDo() {
       url: "/news/announcing-real-time-emissions-measurement-on-the-solana-blockchain",
     },
     {
-      title: environment.what-you-can-do.footprint.title,
-      description: environment.what-you-can-do.footprint.description,
+      title: environment["what-you-can-do"].footprint.title,
+      description: environment["what-you-can-do"].footprint.description,
       image: footprintImg,
       url: "https://medium.com/orca-so/what-daos-can-do-about-climate-change-e38292c46c16",
     },
     {
-      title: environment.what-you-can-do.grants.title,
-      description: environment.what-you-can-do.grants.description,
+      title: environment["what-you-can-do"].grants.title,
+      description: environment["what-you-can-do"].grants.description,
       image: grantsImg,
       url: "https://solanafoundation.notion.site/Solana-Foundation-RFPs-be81db095f054b3f895e1c03de3e65fd",
     },

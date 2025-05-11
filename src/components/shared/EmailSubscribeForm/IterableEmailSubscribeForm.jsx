@@ -32,7 +32,8 @@ const StatusMessage = memo(function StatusMessage({ status }) {
   return <small style={{ color }}>{message}</small>;
 });
 
-  email: Yup.string().email().required(),
+const validationSchema = Yup.object().shape({
+  email: Yup.string().email().required()
 });
 
 const defaultValues = {
@@ -42,7 +43,7 @@ const defaultValues = {
 export default function IterableEmailSubscribeForm({
   inputRef,
   formId,
-  schema = defaultSchema,
+  schema = validationSchema,
   initialValues = defaultValues,
   placeholderTextID,
   ctaTextID,
