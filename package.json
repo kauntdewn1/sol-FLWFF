@@ -3,6 +3,7 @@
   "description": "The solana.com website",
   "version": "3.0.0",
   "author": "Solana Maintainers",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/solana-foundation/solana-com"
