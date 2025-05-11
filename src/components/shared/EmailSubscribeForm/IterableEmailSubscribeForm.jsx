@@ -100,7 +100,8 @@ export default function IterableEmailSubscribeForm({
               )}
               placeholder={
                 placeholderTextID
-                  : shared.mail-signup.form.placeholder
+                  ? i18n[placeholderTextID]
+                  : i18n["shared.mail-signup.form.placeholder"]
               }
               onChange={onValueChange}
             />

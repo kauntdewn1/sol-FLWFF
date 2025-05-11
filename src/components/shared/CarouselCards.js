@@ -143,10 +143,12 @@ const CarouselCards = ({ children }) => {
 
   useEffect(() => {
     if (typeof window !== "undefined" && wrapperRef.current) {
-      wrapperRef.current.addEventListener("scroll", onScroll);
-      return () => wrapperRef.current.removeEventListener("scroll", onScroll);
+      wrapperRef.current.addEventListener("scroll", handleScroll);
+      return () => {
+        wrapperRef.current.removeEventListener("scroll", handleScroll);
+      };
     }
-  }, [onScroll]);
+  }, [handleScroll]);
 
   const stopScroll = useCallback(() => {
     setScroll(Direction.NONE);
