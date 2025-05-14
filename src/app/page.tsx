@@ -1,8 +1,8 @@
-
 "use client";
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import HeroSection from '@/components/flwff/hero-section'; 
 // We will need to create these components based on the descriptions
 // import PriceDisplay from '@/components/flwff/price-display'; 
 // import WhitelistForm from '@/components/flwff/whitelist-form';
@@ -15,73 +15,26 @@ export default function HomePage() {
       <header className="w-full p-4 md:px-8 flex justify-between items-center border-b border-white/10 font-mono">
         <div className="flex items-center space-x-4">
           {/* Logo */}
- {
- /*
- Note: Adjust width and height as needed to maintain aspect ratio
- and fit within the header layout.
- */
- }
           <Link href="/">
             <Image
               src="https://res.cloudinary.com/dgyocpguk/image/upload/v1747194303/logo_horizontal_zxbhl5.png"
               alt="FLWFF Horizontal Logo"
-              width={100} // Adjust width as needed
-              height={20} // Adjust height as needed to maintain aspect ratio
+              width={100} 
+              height={20} 
             />
           </Link>
-          {/* Placeholder for minimal menu with anchor links */}
- {/* We will add the menu later with actual links */}
         </div>
         <div className="flex items-center space-x-4">
            <Button className="rounded-full bg-gradient-to-r from-[#FF007A] to-[#000000] text-white border-none hover:opacity-90 transition-opacity duration-300 text-xs md:text-sm px-6 py-3">
             ACESSAR SEU PAINEL
-           {/*
-            Note: For a true pixelated/glitchy button effect or more complex styling,
-            you might need a dedicated CSS class or a separate component
-            instead of relying solely on Tailwind classes for the gradient and shape.
-            The current implementation uses Tailwind's gradient utility.
-           */}
-          </Button>
+           </Button>
         </div>
       </header>
-
-      {/* Add this style to your global CSS or a style block if using styled-components/CSS modules */}
-      {/* For Tailwind, you might need to define a custom gradient class or use inline styles if not reusable */}
-      {/* Example inline style (for demonstration, consider adding to global CSS or utility class) */}
-      <style jsx global>{`
-        .gradient-button {
-          background: linear-gradient(to right, #FF007A, #000000);
-          border: none;
-          color: white;
-          padding: 0.75rem 1.5rem;
-          border-radius: 9999px; /* Full rounded */
-          font-weight: bold;
-          transition: opacity 0.3s ease;
-        }
-        .gradient-button:hover {
-          opacity: 0.9;
-        }
-      `}</style>
 
       <main className="flex-grow container mx-auto px-4 py-8 md:py-16 flex flex-col items-center space-y-16">
 
         {/* 1.1 Hero Section */}
-        <section className="w-full flex justify-center items-center mb-12 md:mb-16">
-          <section className="w-full flex justify-center items-center mb-12 md:mb-16 relative">
-          {/* Brilho Rosa - Fundo animado */}
-          <img
-          src="https://res.cloudinary.com/dgyocpguk/image/upload/v1747195356/LOGO_Sfundo2_av7gff.png"
-          alt="FLWFF Glow"
-          className="absolute w-60 h-60 md:w-80 md:h-80 animate-pulseGlow z-0"
-          />
-          {/* Logo Principal - Em cima */}
-          <img
-          src="https://res.cloudinary.com/dgyocpguk/image/upload/v1747195425/LOGO_Sfundo1_yn3irt.png"
-          alt="FLWFF Logo"
-          className="relative w-40 h-40 md:w-60 md:h-60 z-10"
-          />
-          </section>
-                  </section>
+        <HeroSection />
 
         {/* 2. PriceDisplay */}
         <section id="price" className="w-full max-w-2xl mb-12 md:mb-16 text-center">
@@ -96,7 +49,6 @@ export default function HomePage() {
               “Transparência em cada bloco. O valor da sua confiança, ancorado na tecnologia.”
             </div>
           </div>
-          {/* Add a comment here reminding to implement the glitch and typing effects */}
           {/* TODO: Implement terminal appearance, glitch effect, and typing animation in PriceDisplay component */}
         </section>
 
