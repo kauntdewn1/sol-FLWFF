@@ -49,7 +49,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     const initFirebase = () => {
       try {
-        if (getIsFirebaseInitialized()) {
+        if (getIsFirebaseInitialized) { // Use the boolean variable directly
           const { auth: authInstance } = ensureFirebaseInitialized();
           setFirebaseAuthInstance(authInstance);
           setFirebaseReady(true);
