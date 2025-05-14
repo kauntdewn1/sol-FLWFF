@@ -4,49 +4,50 @@
 
 @layer base {
   :root {
-    --background: #000000;
-    --foreground: #E6E6E6;
+    --background: 0 0% 0%; /* Black */
+    --foreground: 0 0% 90.2%; /* Near White */
 
-    --card: #141414;
+    --card: 0 0% 7.8%; /* Dark Gray */
+    --card-foreground: 0 0% 90.2%; /* Near White */
 
-    --popover: #0D0D0D;
-    --popover-foreground: #E6E6E6;
+    --popover: 0 0% 5.1%; /* Very Dark Gray */
+    --popover-foreground: 0 0% 90.2%; /* Near White */
 
-    --primary: #FF007A;
-    --primary-foreground: #FFFFFF;
+    --primary: 330 100% 50%; /* Plasma Pink */
+    --primary-foreground: 0 0% 100%; /* White */
 
-    --secondary: #32CD32;
-    --secondary-foreground: #000000;
+    --secondary: 120 60% 50%; /* Neon Green */
+    --secondary-foreground: 0 0% 0%; /* Black */
 
-    --muted: #262626;
-    --muted-foreground: #999999;
+    --muted: 0 0% 14.9%; /* Medium Dark Gray */
+    --muted-foreground: 0 0% 60%; /* Gray */
 
-    --accent: #29A329;
-    --accent-foreground: #FFFFFF;
+    --accent: 120 60% 40%; /* Darker Neon Green */
+    --accent-foreground: 0 0% 100%; /* White */
 
-    --destructive: #F54141;
-    --destructive-foreground: #FFFFFF;
+    --destructive: 0 72% 51%; /* Red */
+    --destructive-foreground: 0 0% 100%; /* White */
 
-    --border: #333333;
-    --input: #1F1F1F;
-    --ring: #32CD32;
+    --border: 0 0% 20%; /* Dark Gray Border */
+    --input: 0 0% 12.2%; /* Input Background */
+    --ring: 120 60% 50%; /* Neon Green Ring */
 
     --radius: 0.3rem;
 
-    --chart-1: #FF007A;
-    --chart-2: #32CD32;
-    --chart-3: #0080FF;
-    --chart-4: #FFFF00;
-    --chart-5: #333333;
+    --chart-1: 330 100% 50%; /* Plasma Pink */
+    --chart-2: 120 60% 50%; /* Neon Green */
+    --chart-3: 210 100% 50%; /* Bright Blue */
+    --chart-4: 60 100% 50%; /* Yellow */
+    --chart-5: 0 0% 20%; /* Dark Gray */
 
-    --sidebar-background: #0D0D0D;
-    --sidebar-foreground: #CCCCCC;
-    --sidebar-primary: #FF007A;
-    --sidebar-primary-foreground: #FFFFFF;
-    --sidebar-accent: #32CD32;
-    --sidebar-accent-foreground: #000000;
-    --sidebar-border: #262626;
-    --sidebar-ring: #33CC33;
+    --sidebar-background: 0 0% 5.1%; /* Very Dark Gray */
+    --sidebar-foreground: 0 0% 80%; /* Light Gray */
+    --sidebar-primary: 330 100% 50%; /* Plasma Pink */
+    --sidebar-primary-foreground: 0 0% 100%; /* White */
+    --sidebar-accent: 120 60% 50%; /* Neon Green */
+    --sidebar-accent-foreground: 0 0% 0%; /* Black */
+    --sidebar-border: 0 0% 14.9%; /* Medium Dark Gray Border */
+    --sidebar-ring: 120 70% 55%; /* Brighter Neon Green Ring */
   }
 
   * {
@@ -67,15 +68,23 @@
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--background);
+  background: hsl(var(--background));
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--primary);
+  background: hsl(var(--primary));
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
+  background: hsl(var(--accent));
 }
 ::-webkit-scrollbar-corner {
-  background: var(--background);
+  background: hsl(var(--background));
+}
+
+.background-grid {
+  background-color: #000; /* Fundo preto */
+  background-image:
+    linear-gradient(to right, rgba(255, 0, 122, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 0, 122, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
