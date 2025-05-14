@@ -25,20 +25,19 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // Reverted the headers function
-  // async headers() {
-  //   return [
-  //     {
-  //       source: "/(.*)",
-  //       headers: [
-  //         {
-  //           key: "Content-Security-Policy",
-  //           value: "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net https://*.web3auth.io; object-src 'none';",
-  //         },
-  //       ],
-  //     },
-  //   ]
-  // }
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Content-Security-Policy",
+            value: "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net https://*.web3auth.io; object-src 'none';",
+          },
+        ],
+      },
+    ]
+  }
 };
 
 export default nextConfig;
