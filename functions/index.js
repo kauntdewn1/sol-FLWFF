@@ -29,4 +29,4 @@ app.post("/", async (req, res) => {
   }
 })
 
-exports.auth = functions.https.onRequest(app)
+exports.auth = functions.https.onRequest(app);
