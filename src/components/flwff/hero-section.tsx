@@ -7,10 +7,7 @@ import Link from 'next/link';
 export default function HeroSection() {
   return (
     <div // Root element provides perspective context
-      className="w-full min-h-[calc(100vh-80px)] md:min-h-[calc(100vh-96px)]
-                 flex flex-col justify-center items-center text-center p-4 md:p-8
-                 relative overflow-hidden
-                 [perspective:1000px]" // Perspective context for 3D transformed children
+      className="w-full min-h-[calc(100vh-80px)] md:min-h-[calc(100vh-96px)] flex flex-col justify-center items-center text-center p-4 md:p-8 relative overflow-hidden [perspective:1000px]" // Perspective context for 3D transformed children
     >
       {/* Transformed Grid Background Layer */}
       <div
