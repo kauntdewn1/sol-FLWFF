@@ -10,11 +10,11 @@ export default function HomePage() {
       <main className="flex-grow container mx-auto px-4 py-8 md:py-16 flex flex-col items-center">
         <section id="price" className="w-full max-w-2xl mb-12 md:mb-20 text-center">
           <h2 className="text-2xl md:text-3xl font-mono uppercase text-secondary mb-4 tracking-wider">
-            $FLWFF Current Price
+            Preço Atual da $FLWFF
           </h2>
           <PriceDisplay tokenGeckoId="flow" tokenSymbol="FLWFF" />
           <p className="text-xs text-muted-foreground mt-2">
-            (Simulating $FLWFF with $FLOW price from CoinGecko)
+            (Simulando preço da $FLWFF com o preço da $FLOW da CoinGecko)
           </p>
         </section>
 
@@ -23,18 +23,18 @@ export default function HomePage() {
         <section id="whitelist" className="w-full max-w-md">
           <div className="bg-card p-6 md:p-8 rounded-lg shadow-xl border border-primary/50">
             <h2 className="text-3xl md:text-4xl font-bold text-primary mb-3 text-center font-mono uppercase tracking-tight">
-              Enter the Void
+              Entre no Vazio
             </h2>
             <p className="text-muted-foreground mb-6 text-center text-sm md:text-base">
-              Pledge your wallet. Secure your passage. The $FLWFF current awaits.
+              Comprometa sua carteira. Garanta sua passagem. A correnteza $FLWFF aguarda.
             </p>
             <WhitelistForm />
           </div>
         </section>
       </main>
       <footer className="py-8 text-center text-muted-foreground text-xs border-t border-border">
-        <p>&copy; {new Date().getFullYear()} FLWFF Collective. All rites reserved.</p>
-        <p>Embrace the chaos. Trust the flow.</p>
+        <p>&copy; {new Date().getFullYear()} Coletivo FLWFF. Todos os ritos reservados.</p>
+        <p>Abrace o caos. Confie no fluxo.</p>
       </footer>
     </div>
   );

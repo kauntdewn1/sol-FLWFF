@@ -16,8 +16,8 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: 'FLWFF Stablecoin Info',
-  description: 'Enter the Abyss. Track $FLWFF. Join the Inner Circle.',
+  title: 'Informações da Stablecoin FLWFF',
+  description: 'Entre no Abismo. Acompanhe $FLWFF. Junte-se ao Círculo Interno.',
   icons: {
     icon: 'https://res.cloudinary.com/dgyocpguk/image/upload/v1747184999/ico_myg1kz.png',
   }
@@ -29,7 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="pt-BR" className="dark" suppressHydrationWarning>
       <body className={`${inter.variable} ${spaceGrotesk.variable} antialiased font-sans`}>
         <FirebaseProvider>
           {children}

@@ -39,11 +39,11 @@ const PriceDisplay: FC<PriceDisplayProps> = async ({ tokenGeckoId, tokenSymbol }
           <span className="font-mono text-5xl md:text-7xl text-secondary" style={{ textShadow: '0 0 5px hsl(var(--secondary)), 0 0 10px hsl(var(--secondary)), 0 0 15px hsl(var(--secondary)), 0 0 20px hsl(var(--secondary))' }}>
             ${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 4 })}
           </span>
-          <span className="text-lg text-muted-foreground mt-1">USD per ${tokenSymbol}</span>
+          <span className="text-lg text-muted-foreground mt-1">USD por ${tokenSymbol}</span>
         </>
       ) : (
         <span className="font-mono text-3xl text-destructive animate-pulse">
-          PRICE UNAVAILABLE
+          PREÇO INDISPONÍVEL
         </span>
       )}
     </div>

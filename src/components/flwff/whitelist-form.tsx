@@ -19,15 +19,15 @@ import { useState, useTransition } from 'react';
 import { Loader2, CheckCircle, AlertTriangle, ExternalLink } from 'lucide-react';
 
 const formSchema = z.object({
-  walletAddress: z.string().min(26, { // Basic check, can be more specific for ETH/SOL
-    message: 'Wallet address seems too short.',
-  }).max(44, { // Solana addresses are typically 44 chars, ETH 42.
-    message: 'Wallet address seems too long.'
+  walletAddress: z.string().min(26, {
+    message: 'O endereço da carteira parece muito curto.',
+  }).max(44, {
+    message: 'O endereço da carteira parece muito longo.'
   }).regex(/^[a-zA-Z0-9]+$/, {
-    message: 'Wallet address contains invalid characters.'
+    message: 'O endereço da carteira contém caracteres inválidos.'
   }),
   email: z.string().email({
-    message: 'Please enter a valid email address.',
+    message: 'Por favor, insira um endereço de email válido.',
   }),
 });
 
@@ -56,10 +56,10 @@ export default function WhitelistForm() {
             title: (
               <div className="flex items-center">
                 <CheckCircle className="h-5 w-5 text-secondary mr-2" />
-                <span className="font-bold">Pact Sealed!</span>
+                <span className="font-bold">Pacto Selado!</span>
               </div>
             ),
-            description: `Your entry is immortalized. IPFS Hash: ${result.ipfsHash.substring(0,12)}...`,
+            description: `Sua entrada está imortalizada. Hash IPFS: ${result.ipfsHash.substring(0,12)}...`,
             variant: 'default',
             className: 'bg-card border-secondary text-foreground',
           });
@@ -69,15 +69,15 @@ export default function WhitelistForm() {
           });
           form.reset();
         } else {
-          throw new Error(result.error || 'An unknown error occurred.');
+          throw new Error(result.error || 'Ocorreu um erro desconhecido.');
         }
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Submission failed. Please try again.';
+        const errorMessage = error instanceof Error ? error.message : 'Falha no envio. Por favor, tente novamente.';
         toast({
           title: (
             <div className="flex items-center">
               <AlertTriangle className="h-5 w-5 text-destructive mr-2" />
-              <span className="font-bold">Error</span>
+              <span className="font-bold">Erro</span>
             </div>
           ),
           description: errorMessage,
@@ -91,10 +91,10 @@ export default function WhitelistForm() {
     return (
       <div className="text-center p-6 bg-input rounded-md shadow-inner">
         <CheckCircle className="h-16 w-16 text-secondary mx-auto mb-4" />
-        <h3 className="text-xl font-semibold text-foreground mb-2">Submission Recorded</h3>
-        <p className="text-muted-foreground mb-1 text-sm">Your data has been processed.</p>
+        <h3 className="text-xl font-semibold text-foreground mb-2">Envio Registrado</h3>
+        <p className="text-muted-foreground mb-1 text-sm">Seus dados foram processados.</p>
         <p className="text-muted-foreground mb-4 text-sm">
-          IPFS Hash: <span className="text-secondary font-mono break-all">{submissionResult.ipfsHash}</span>
+          Hash IPFS: <span className="text-secondary font-mono break-all">{submissionResult.ipfsHash}</span>
         </p>
         <Button
           variant="outline"
@@ -102,10 +102,10 @@ export default function WhitelistForm() {
           onClick={() => window.open(submissionResult.gatewayUrl, '_blank')}
         >
           <ExternalLink className="mr-2 h-4 w-4" />
-          View on IPFS Gateway
+          Ver no Gateway IPFS
         </Button>
          <Button variant="link" className="text-primary mt-4" onClick={() => setSubmissionResult(null)}>
-          Submit Another
+          Enviar Outro
         </Button>
       </div>
     );
@@ -119,16 +119,16 @@ export default function WhitelistForm() {
           name="walletAddress"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-muted-foreground uppercase text-xs tracking-wider">Wallet Address (ETH/SOL)</FormLabel>
+              <FormLabel className="text-muted-foreground uppercase text-xs tracking-wider">Endereço da Carteira (ETH/SOL)</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="0x... or Sol..."
+                  placeholder="0x... ou Sol..."
                   {...field}
                   className="bg-input border-border focus:border-primary focus:ring-primary text-foreground placeholder:text-muted-foreground/50 h-12 text-base"
                   aria-describedby="wallet-address-help"
                 />
               </FormControl>
-              <p id="wallet-address-help" className="text-xs text-muted-foreground/70 pt-1">Your public key to the new world.</p>
+              <p id="wallet-address-help" className="text-xs text-muted-foreground/70 pt-1">Sua chave pública para o novo mundo.</p>
               <FormMessage className="text-destructive/80" />
             </FormItem>
           )}
@@ -138,17 +138,17 @@ export default function WhitelistForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-muted-foreground uppercase text-xs tracking-wider">Email Address</FormLabel>
+              <FormLabel className="text-muted-foreground uppercase text-xs tracking-wider">Endereço de Email</FormLabel>
               <FormControl>
                 <Input
                   type="email"
-                  placeholder="your.signal@domain.com"
+                  placeholder="seu.sinal@dominio.com"
                   {...field}
                   className="bg-input border-border focus:border-primary focus:ring-primary text-foreground placeholder:text-muted-foreground/50 h-12 text-base"
                   aria-describedby="email-help"
                 />
               </FormControl>
-              <p id="email-help" className="text-xs text-muted-foreground/70 pt-1">For vital transmissions only.</p>
+              <p id="email-help" className="text-xs text-muted-foreground/70 pt-1">Apenas para transmissões vitais.</p>
               <FormMessage className="text-destructive/80" />
             </FormItem>
           )}
@@ -161,10 +161,10 @@ export default function WhitelistForm() {
           {isPending ? (
             <>
               <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-              Processing...
+              Processando...
             </>
           ) : (
-            'Seal the Covenant'
+            'Selar o Pacto'
           )}
         </Button>
       </form>

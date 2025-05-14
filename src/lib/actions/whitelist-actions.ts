@@ -52,10 +52,10 @@ export async function submitWhitelistAction(
   } catch (error) {
     console.error('Whitelist submission error:', error);
     if (error instanceof z.ZodError) {
-      return { success: false, error: 'Invalid data provided.' };
+      return { success: false, error: 'Dados fornecidos inválidos.' };
     }
     // Check for specific Firebase errors if needed
     // e.g., if (error.code === 'permission-denied') { ... }
-    return { success: false, error: error instanceof Error ? error.message : 'An unexpected error occurred during submission.' };
+    return { success: false, error: error instanceof Error ? error.message : 'Ocorreu um erro inesperado durante o envio.' };
   }
 }
