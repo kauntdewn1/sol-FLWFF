@@ -1,20 +1,31 @@
 {
-    "functions": {
-      "source": "functions"
-    },
-    "hosting": {
-      "public": "build",
-      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-      "rewrites": [
-        {
-          "source": "/api/**",
-          "function": "auth"
-        },
-        {
-          "source": "**",
-          "destination": "/index.html"
-        }
-      ]
+  "functions": {
+    "source": "functions"
+  },
+  "hosting": {
+    "public": "build",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/api/**",
+        "function": "auth"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "emulators": {
+    "dataconnect": {
+      "dataDir": "dataconnect/.dataconnect/pgliteData"
     }
+  },
+  "dataconnect": {
+    "source": "dataconnect"
   }
-  
+}

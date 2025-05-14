@@ -4,10 +4,10 @@ import type {NextConfig} from 'next';
 const nextConfig: NextConfig = {
   /* config options here */
   typescript: {
-    ignoreBuildErrors: false, // Alterado para false para produção
+    ignoreBuildErrors: false, 
   },
   eslint: {
-    ignoreDuringBuilds: false, // Alterado para false para produção
+    ignoreDuringBuilds: false, 
   },
   images: {
     remotePatterns: [
@@ -25,6 +25,19 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // async headers() { // Reverted this section
+  //   return [
+  //     {
+  //       source: "/(.*)",
+  //       headers: [
+  //         {
+  //           key: "Content-Security-Policy",
+  //           value: "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net https://*.web3auth.io; object-src 'none';",
+  //         },
+  //       ],
+  //     },
+  //   ]
+  // }
 };
 
 export default nextConfig;

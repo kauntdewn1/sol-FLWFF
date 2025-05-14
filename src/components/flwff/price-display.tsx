@@ -12,24 +12,42 @@ interface PriceDisplayProps {
 }
 
 async function getPrice(tokenId: string): Promise<number | null> {
+  if (!tokenId) {
+    console.error('Error fetching price: tokenId is null or empty.');
+    return null;
+  }
   try {
-    // Note: This is a server-side fetch. For true real-time, client-side fetching with interval is needed.
     const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=usd`, {
       next: { revalidate: 60 } // Cache for 60 seconds
     });
     if (!response.ok) {
-      console.error('Failed to fetch price from CoinGecko:', response.statusText);
+      console.error(`Failed to fetch price from CoinGecko for ${tokenId}: ${response.status} ${response.statusText}`);
       return null;
     }
     const data: PriceData = await response.json();
-    return data[tokenId]?.usd ?? null;
+    if (!data || typeof data !== 'object' || !data[tokenId] || typeof data[tokenId].usd !== 'number') {
+        console.error('Price data or tokenId.usd not found or invalid in CoinGecko response:', tokenId, data);
+        return null;
+    }
+    return data[tokenId].usd;
   } catch (error) {
-    console.error('Error fetching price:', error);
+    console.error(`Error fetching price for ${tokenId}:`, error);
     return null;
   }
 }
 
 const PriceDisplay: FC<PriceDisplayProps> = async ({ tokenGeckoId, tokenSymbol }) => {
+  if (!tokenGeckoId || !tokenSymbol) {
+    console.error("PriceDisplay: Missing tokenGeckoId or tokenSymbol prop.");
+    return (
+      <div className="p-6 bg-card border border-destructive/30 rounded-lg shadow-2xl flex flex-col items-center justify-center min-h-[150px]">
+        <span className="font-mono text-2xl text-destructive">
+          ERRO DE CONFIGURAÇÃO
+        </span>
+      </div>
+    );
+  }
+
   const price = await getPrice(tokenGeckoId);
 
   return (
