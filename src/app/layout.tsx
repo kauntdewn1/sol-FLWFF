@@ -1,8 +1,10 @@
+
 import type { Metadata } from 'next';
 import { Inter, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { FirebaseProvider } from '@/components/firebase-provider';
+import { AuthProvider } from '@/contexts/auth-context'; // Import AuthProvider
 
 const inter = Inter({
   subsets: ['latin'],
@@ -12,7 +14,7 @@ const inter = Inter({
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   variable: '--font-space-grotesk',
-  weight: ['300', '400', '500', '700'], // Specify weights for Space Grotesk
+  weight: ['300', '400', '500', '700'],
 });
 
 export const metadata: Metadata = {
@@ -32,8 +34,10 @@ export default function RootLayout({
     <html lang="pt-BR" className="dark" suppressHydrationWarning>
       <body className={`${inter.variable} ${spaceGrotesk.variable} antialiased font-sans`}>
         <FirebaseProvider>
-          {children}
-          <Toaster />
+          <AuthProvider> {/* Wrap with AuthProvider */}
+            {children}
+            <Toaster />
+          </AuthProvider>
         </FirebaseProvider>
       </body>
     </html>

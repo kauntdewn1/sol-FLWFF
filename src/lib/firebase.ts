@@ -1,5 +1,6 @@
-import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
-import { getFirestore, Firestore } from "firebase/firestore";
+import { initializeApp, getApps, getApp, type FirebaseApp } from "firebase/app";
+import { getFirestore, type Firestore } from "firebase/firestore";
+import { getAuth, type Auth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -12,38 +13,28 @@ const firebaseConfig = {
 
 let app: FirebaseApp;
 let db: Firestore;
+let auth: Auth;
 
-if (typeof window !== 'undefined' && !getApps().length) {
-  app = initializeApp(firebaseConfig);
-  db = getFirestore(app);
-} else if (typeof window !== 'undefined') {
-  app = getApp();
-  db = getFirestore(app);
-} else {
-  // Handle server-side initialization if necessary, or ensure this is only called client-side
-  // For Server Actions using client SDK, ensure app is initialized before use.
-  // This simple setup is primarily for client-side usage.
-  // Server Actions can import and use 'db' if this file is part of the server bundle
-  // and Firebase is initialized appropriately. For robust server actions, consider Admin SDK.
-  if (!getApps().length) {
-     app = initializeApp(firebaseConfig);
-  } else {
-     app = getApp();
-  }
-  db = getFirestore(app);
-}
-
-
-export { app, db };
-
-// Helper to ensure Firebase is initialized, can be used in components or actions
-export const ensureFirebaseInitialized = () => {
+function initialize() {
   if (!getApps().length) {
     app = initializeApp(firebaseConfig);
-    db = getFirestore(app);
   } else {
     app = getApp();
-    db = getFirestore(app);
   }
-  return { app, db };
+  db = getFirestore(app);
+  auth = getAuth(app);
+}
+
+// Initialize on module load, catering for both client and server (if bundled)
+initialize();
+
+export { app, db, auth };
+
+export const ensureFirebaseInitialized = (): { app: FirebaseApp; db: Firestore; auth: Auth } => {
+  // This function primarily ensures that if called again, it returns the already initialized instances.
+  // Initialization now happens at module load.
+  if (!app || !db || !auth) { // Should not happen if module loaded correctly
+    initialize();
+  }
+  return { app, db, auth };
 };

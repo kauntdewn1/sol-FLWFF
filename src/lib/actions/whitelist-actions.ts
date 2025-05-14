@@ -2,11 +2,19 @@
 
 import { z } from 'zod';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db, ensureFirebaseInitialized } from '@/lib/firebase'; // db might be undefined on server if not handled carefully
+import { db, ensureFirebaseInitialized } from '@/lib/firebase';
+import { storeJson } from '@/lib/web3storage';
 
 const formSchema = z.object({
-  walletAddress: z.string().min(1),
-  email: z.string().email(),
+  // walletAddress is now expected to be provided by the auth context, not directly from form
+  email: z.string().email({ message: 'Por favor, insira um endereço de email válido.' }),
+  walletAddress: z.string().min(26, { // Keep for validation if passed, but prioritize auth context
+    message: 'O endereço da carteira parece muito curto.',
+  }).max(44, {
+    message: 'O endereço da carteira parece muito longo.'
+  }).regex(/^[a-zA-Z0-9]+$/, {
+    message: 'O endereço da carteira contém caracteres inválidos.'
+  }),
 });
 
 interface WhitelistSubmissionResult {
@@ -15,47 +23,44 @@ interface WhitelistSubmissionResult {
   error?: string;
 }
 
+// The walletAddress parameter will be passed from the component after retrieving from AuthContext
 export async function submitWhitelistAction(
   values: z.infer<typeof formSchema>
 ): Promise<WhitelistSubmissionResult> {
   try {
+    // The calling component should ensure walletAddress is from an authenticated source (Web3Auth)
+    // and pass it in `values`.
     const validatedData = formSchema.parse(values);
     
-    // Ensure Firebase is initialized before trying to use 'db'
-    // This is a workaround for simple client SDK usage in server actions.
-    // For production, Firebase Admin SDK in a separate backend/API route is more robust for writes.
     ensureFirebaseInitialized(); 
 
-    // Add to Firestore
-    const docRef = await addDoc(collection(db, 'whitelistEntries'), {
+    const docRef = await addDoc(collection(db, 'whitelist'), { // Updated collection name
       walletAddress: validatedData.walletAddress,
       email: validatedData.email,
-      submittedAt: serverTimestamp(),
+      timestamp: serverTimestamp(), // Updated field name
     });
 
-    // Mock IPFS export
-    // In a real scenario, you'd use an IPFS client or pinning service API here.
-    // For example, using Pinata, Infura IPFS, or running your own IPFS node.
-    const dataToPin = JSON.stringify({ 
+    const ipfsData = { 
       walletAddress: validatedData.walletAddress,
       email: validatedData.email,
       firestoreDocId: docRef.id,
-      timestamp: new Date().toISOString(),
-    });
-    // This is a fake hash generation
-    const mockIpfsHash = 'Qm' + Array(44).fill(0).map(() => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.charAt(Math.floor(Math.random() * 62))).join('');
+      submissionTimestamp: new Date().toISOString(),
+    };
     
-    // Simulate a delay for IPFS upload
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    const ipfsHash = await storeJson(ipfsData, `whitelist-${docRef.id}.json`);
 
-    return { success: true, ipfsHash: mockIpfsHash };
+    return { success: true, ipfsHash };
   } catch (error) {
     console.error('Whitelist submission error:', error);
     if (error instanceof z.ZodError) {
-      return { success: false, error: 'Dados fornecidos inválidos.' };
+      return { success: false, error: 'Dados fornecidos inválidos. Verifique os campos e tente novamente.' };
     }
-    // Check for specific Firebase errors if needed
-    // e.g., if (error.code === 'permission-denied') { ... }
-    return { success: false, error: error instanceof Error ? error.message : 'Ocorreu um erro inesperado durante o envio.' };
+    let errorMessage = 'Ocorreu um erro inesperado durante o envio.';
+    if (error instanceof Error) {
+        errorMessage = error.message.includes('NEXT_PUBLIC_WEB3_STORAGE_TOKEN') 
+          ? 'Erro de configuração do armazenamento IPFS. Contate o suporte.'
+          : error.message;
+    }
+    return { success: false, error: errorMessage };
   }
 }
