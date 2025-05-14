@@ -16,7 +16,7 @@ export default function PageHeader() {
             alt="FLWFF Horizontal Logo"
             width={100}
             height={20}
-            priority
+            // priority // Removido para teste
           />
         </Link>
       </div>

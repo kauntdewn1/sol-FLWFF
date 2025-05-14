@@ -1,69 +1,55 @@
 
 import HeroSection from '@/components/flwff/hero-section';
 import PageFooter from '@/components/layout/page-footer';
-import { Button } from '@/components/ui/button'; 
 import DynamicPageHeader from '@/components/layout/dynamic-page-header';
+// import PageHeader from '@/components/layout/page-header'; // Removed direct import
+import PriceDisplay from '@/components/flwff/price-display';
+import WhitelistForm from '@/components/flwff/whitelist-form';
+import StakingSection from '@/components/flwff/staking-section';
+import { Separator } from '@/components/ui/separator';
+import { Coins, ShieldCheck, ListPlus } from 'lucide-react';
 
-
-// import PriceDisplay from '@/components/flwff/price-display'; // Placeholder
-// import WhitelistForm from '@/components/flwff/whitelist-form'; // Placeholder
-// import StakingSection from '@/components/flwff/staking-section'; // Placeholder
 
 export default function HomePage() {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground font-sans">
       <DynamicPageHeader />
+      {/* <PageHeader /> */} {/* Ensure DynamicPageHeader is used */}
 
-      <main className="flex-grow container mx-auto px-4 py-8 md:py-16 flex flex-col items-center space-y-16">
+      <main className="flex-grow container mx-auto px-4 py-8 md:py-16 flex flex-col items-center space-y-12 md:space-y-20">
 
         <HeroSection />
 
-        <section id="price" className="w-full max-w-2xl mb-12 md:mb-16 text-center">
-          <div className="bg-card border-2 border-primary text-secondary font-mono p-6 rounded-lg shadow-lg">
-            <div className="text-left mb-4">
-              <div>FLWFF | Valor Atual: $0.4761</div>
-              <div>{`<<< Atualizado em tempo real >>>`}</div>
-            </div>
-            <div className="text-sm italic text-muted-foreground text-center">
-              “Transparência em cada bloco. O valor da sua confiança, ancorado na tecnologia.”
-            </div>
-          </div>
+        <Separator className="my-8 md:my-12 w-3/4 max-w-2xl bg-border/50" />
+
+        <section id="price" className="w-full max-w-2xl text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-6 text-center font-mono uppercase tracking-tight flex items-center justify-center">
+            <Coins className="mr-3 h-8 w-8" /> Cotação $FLWFF
+          </h2>
+          <PriceDisplay tokenGeckoId="flow" tokenSymbol="FLWFF" />
+          <p className="text-xs text-muted-foreground mt-3 italic">
+            (Simulando preço $FLWFF com $FLOW via CoinGecko API)
+          </p>
         </section>
 
-        <section id="whitelist" className="w-full max-w-md mb-12 md:mb-16">
-          <div className="p-6 md:p-8 rounded-lg shadow-xl border border-border bg-card">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3 text-center">
-              PARTICIPE DO ECOSSISTEMA FLWFF
+        <Separator className="my-8 md:my-12 w-3/4 max-w-2xl bg-border/50" />
+
+        <section id="whitelist" className="w-full max-w-md">
+          <div className="p-6 md:p-8 rounded-lg shadow-xl border border-primary/50 bg-card">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4 text-center font-mono uppercase tracking-tight flex items-center justify-center">
+              <ListPlus className="mr-3 h-8 w-8" /> Entre na Whitelist
             </h2>
             <p className="text-muted-foreground mb-6 text-center text-sm md:text-base">
-              Cadastre-se para acesso prioritário às funcionalidades.
+              Garanta seu acesso antecipado e benefícios exclusivos no ecossistema FLWFF.
             </p>
-            <div className="bg-input p-4 rounded-md border border-border">
-              <input type="email" placeholder="Seu melhor e-mail" className="w-full p-2 bg-transparent border-b border-border focus:outline-none focus:border-primary text-foreground placeholder:text-muted-foreground" />
-              <Button className="w-full mt-6 bg-accent text-accent-foreground font-bold hover:bg-accent/90">
-                ENTRAR NA WHITELIST
-              </Button>
-            </div>
-            <p className="text-muted-foreground/80 mt-4 text-center text-xs">
-              Você receberá notificações sobre os próximos passos diretamente em seu e-mail.
-            </p>
+            <WhitelistForm />
           </div>
         </section>
+        
+        <Separator className="my-8 md:my-12 w-3/4 max-w-2xl bg-border/50" />
 
-        <section id="staking" className="w-full max-w-4xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-center">
-            Trave seus FLWFF e amplie seu impacto no ecossistema.
-          </h2>
-          <p className="text-muted-foreground mb-8 text-center text-sm md:text-base">
-            Quanto mais tempo você contribui, maior sua participação nos retornos e decisões.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="p-6 bg-card rounded-lg border border-border text-center">Status Card 1 (Disponível)</div>
-            <div className="p-6 bg-card rounded-lg border border-border text-center opacity-40 grayscale">Status Card 2 (Encerrado)</div>
-            <div className="p-6 bg-card rounded-lg border border-border text-center opacity-50">Status Card 3 (Em Resgate)</div>
-            <div className="p-6 bg-card rounded-lg border border-border text-center opacity-40">Status Card 4 (Finalizado)</div>
-          </div>
-        </section>
+        {/* StakingSection already has its own Card and styling, so we don't need an extra wrapper div like whitelist */}
+        <StakingSection />
 
       </main>
 

@@ -17,7 +17,7 @@ export default function HeroSection() {
         className="absolute inset-0 background-grid transform-gpu 
                    [transform:rotateX(45deg)_translateY(-20%)_scale(1.3)] 
                    [transform-origin:center_bottom] 
-                   z-0" // Grid is at the very back, transformed
+                   z-0"
       />
 
       {/* Overlay Layer */}
