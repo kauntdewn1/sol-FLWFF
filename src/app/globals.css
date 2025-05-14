@@ -2,68 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Removed body font-family direct declaration, Tailwind handles this now via font-sans on body and tailwind.config */
-
 @layer base {
   :root {
-    --background: 0 0% 0%; /* #000000 Abismo Black */
-    --foreground: 0 0% 90%; /* #E6E6E6 Light Gray for text */
+    --background: #000000;
+    --foreground: #E6E6E6;
 
-    --card: 0 0% 8%; /* #141414 Dark Gray for cards */
-    --card-foreground: 0 0% 90%; /* #E6E6E6 */
+    --card: #141414;
 
-    --popover: 0 0% 5%; /* #0D0D0D Very Dark Gray for popovers */
-    --popover-foreground: 0 0% 90%; /* #E6E6E6 */
+    --popover: #0D0D0D;
+    --popover-foreground: #E6E6E6;
 
-    --primary: 330 100% 50%; /* #FF007A Plasma Pink */
-    --primary-foreground: 0 0% 100%; /* #FFFFFF White text on pink */
+    --primary: #FF007A;
+    --primary-foreground: #FFFFFF;
 
-    --secondary: 120 60% 50%; /* #32CD32 Neon Hacker Green */
-    --secondary-foreground: 0 0% 0%; /* #000000 Black text on green */
+    --secondary: #32CD32;
+    --secondary-foreground: #000000;
 
-    --muted: 0 0% 15%; /* #262626 Dark Muted Gray */
-    --muted-foreground: 0 0% 60%; /* #999999 Muted Gray Text */
+    --muted: #262626;
+    --muted-foreground: #999999;
 
-    --accent: 120 60% 40%; /* #29A329 Darker Neon Green for accents/hovers */
-    --accent-foreground: 0 0% 100%; /* #FFFFFF White text on accent */
-    
-    --destructive: 0 84.2% 60.2%; /* Default ShadCN red */
-    --destructive-foreground: 0 0% 100%;
+    --accent: #29A329;
+    --accent-foreground: #FFFFFF;
 
-    --border: 0 0% 20%; /* #333333 Slightly lighter gray for borders */
-    --input: 0 0% 12%; /* #1F1F1F Dark gray for input backgrounds */
-    --ring: 120 60% 50%; /* #32CD32 Neon Hacker Green for focus rings */
+    --destructive: #F54141;
+    --destructive-foreground: #FFFFFF;
 
-    --radius: 0.3rem; /* Sharper corners for cyberpunk style */
+    --border: #333333;
+    --input: #1F1F1F;
+    --ring: #32CD32;
 
-    /* Chart colors - can be adjusted if charts are used */
-    --chart-1: 330 100% 50%; /* Plasma Pink */
-    --chart-2: 120 60% 50%; /* Neon Green */
-    --chart-3: 210 100% 50%; /* A contrasting blue */
-    --chart-4: 60 100% 50%; /* A contrasting yellow */
-    --chart-5: 0 0% 50%; /* Gray */
+    --radius: 0.3rem;
 
-    /* Sidebar specific colors, might not be heavily used but good to theme */
-    --sidebar-background: 0 0% 5%; /* #0D0D0D */
-    --sidebar-foreground: 0 0% 80%; /* #CCCCCC */
-    --sidebar-primary: 330 100% 50%; /* Plasma Pink */
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 120 60% 50%; /* Neon Green */
-    --sidebar-accent-foreground: 0 0% 0%;
-    --sidebar-border: 0 0% 15%;
-    --sidebar-ring: 120 60% 50%;
+    --chart-1: #FF007A;
+    --chart-2: #32CD32;
+    --chart-3: #0080FF;
+    --chart-4: #FFFF00;
+    --chart-5: #333333;
+
+    --sidebar-background: #0D0D0D;
+    --sidebar-foreground: #CCCCCC;
+    --sidebar-primary: #FF007A;
+    --sidebar-primary-foreground: #FFFFFF;
+    --sidebar-accent: #32CD32;
+    --sidebar-accent-foreground: #000000;
+    --sidebar-border: #262626;
+    --sidebar-ring: #33CC33;
   }
 
-  /* Remove .dark specific overrides as the base theme is now dark */
-  /* If a light mode is ever needed, .dark would be redefined.
-     For now, :root IS the dark theme.
-  */
-}
-
-@layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
     text-rendering: optimizeLegibility;
@@ -78,15 +67,15 @@
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: hsl(var(--background));
+  background: var(--background);
 }
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary));
+  background: var(--primary);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--accent));
+  background: var(--accent);
 }
 ::-webkit-scrollbar-corner {
-  background: hsl(var(--background));
+  background: var(--background);
 }

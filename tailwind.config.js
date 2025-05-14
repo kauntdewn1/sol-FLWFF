@@ -67,21 +67,21 @@ export default function HomePage() {
 
         {/* 1.1 Hero Section */}
         <section className="w-full flex justify-center items-center mb-12 md:mb-16">
-          <section className="w-full flex justify-center items-center mb-12 md:mb-16 relative">
-          {/* Brilho Rosa - Fundo animado */}
-          <img
-          src="https://res.cloudinary.com/dgyocpguk/image/upload/v1747195356/LOGO_Sfundo2_av7gff.png"
-          alt="FLWFF Glow"
-          className="absolute w-60 h-60 md:w-80 md:h-80 animate-pulseGlow z-0"
-          />
-          {/* Logo Principal - Em cima */}
-          <img
-          src="https://res.cloudinary.com/dgyocpguk/image/upload/v1747195425/LOGO_Sfundo1_yn3irt.png"
-          alt="FLWFF Logo"
-          className="relative w-40 h-40 md:w-60 md:h-60 z-10"
-          />
-          </section>
-                  </section>
+ <section className="w-full flex justify-center items-center mb-12 md:mb-16 relative">
+ {/* Brilho Rosa - Fundo animado */}
+ <img
+ src="https://res.cloudinary.com/dgyocpguk/image/upload/v1747195356/LOGO_Sfundo2_av7gff.png"
+ alt="FLWFF Glow"
+ className="absolute w-60 h-60 md:w-80 md:h-80 animate-pulseGlow z-0"
+ />
+ {/* Logo Principal - Em cima */}
+ <img
+ src="https://res.cloudinary.com/dgyocpguk/image/upload/v1747195425/LOGO_Sfundo1_yn3irt.png"
+ alt="FLWFF Logo"
+ className="relative w-40 h-40 md:w-60 md:h-60 z-10"
+ />
+ </section>
+        </section>
 
         {/* 2. PriceDisplay */}
         <section id="price" className="w-full max-w-2xl mb-12 md:mb-16 text-center">
