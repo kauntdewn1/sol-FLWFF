@@ -2,18 +2,46 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Função para verificar se o usuário está autenticado
+    function isAuthenticated() {
+      return request.auth != null;
+    }
 
-    // This rule allows anyone with your Firestore database reference to view, edit,
-    // and delete all data in your Firestore database. It is useful for getting
-    // started, but it is configured to expire after 30 days because it
-    // leaves your app open to attackers. At that time, all client
-    // requests to your Firestore database will be denied.
-    //
-    // Make sure to write security rules for your app before that time, or else
-    // all client requests to your Firestore database will be denied until you Update
-    // your rules
+    // Função para verificar se o usuário é o dono do documento
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    // Regras para a coleção de usuários
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId);
+    }
+
+    // Regras para a coleção de whitelist
+    match /whitelist/{docId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update, delete: if false; // Apenas admin pode atualizar/deletar
+    }
+
+    // Regras para a coleção de preços
+    match /prices/{docId} {
+      allow read: if true; // Público pode ler
+      allow write: if false; // Apenas admin pode escrever
+    }
+
+    // Regras para a coleção de staking
+    match /staking/{docId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isOwner(resource.data.userId);
+      allow delete: if false; // Apenas admin pode deletar
+    }
+
+    // Regra padrão - nega acesso a todas as outras coleções
     match /{document=**} {
-      allow read, write: if request.time < timestamp.date(2025, 6, 13);
+      allow read, write: if false;
     }
   }
 }

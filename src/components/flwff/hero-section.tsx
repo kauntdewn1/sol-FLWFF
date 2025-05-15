@@ -1,93 +1,82 @@
 'use client';
 
+import { motion } from 'framer-motion';
+import { Sparkles } from 'lucide-react';
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 
 export default function HeroSection() {
   return (
-    <div // Root element provides perspective context
-      className="w-full min-h-[calc(100vh-80px)] md:min-h-[calc(100vh-96px)] flex flex-col justify-center items-center text-center p-4 md:p-8 relative overflow-hidden [perspective:1000px]" // Perspective context for 3D transformed children
-    >
-      {/* Transformed Grid Background Layer */}
-      <div
-        className="absolute inset-0 background-grid transform-gpu
-                   [transform:rotateX(45deg)_translateY(-20%)_scale(1.3)]
-                   [transform-origin:center_bottom]
-                   z-0"
-      />
-
-      {/* Overlay Layer */}
-      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-black/30 to-black/70 opacity-50 z-[1]" />
-
-      {/* Content Layer: Stays flat */}
-      <div className="relative z-[2] flex flex-col items-center">
-        {/* Logo Principal */}
-        <div className="relative w-60 h-60 md:w-80 md:h-80 mb-6 md:mb-8">
-          <Image
-            src="https://res.cloudinary.com/dgyocpguk/image/upload/v1747195356/LOGO_Sfundo2_av7gff.png"
-            alt="FLWFF Glow"
-            fill
-            className="absolute z-0 opacity-40 animate-pulseGlow"
-            data-ai-hint="abstract glow"
-            priority
-          />
-          <Image
-            src="https://res.cloudinary.com/dgyocpguk/image/upload/v1747195425/LOGO_Sfundo1_yn3irt.png"
-            alt="FLWFF Logo"
-            fill
-            className="relative z-10 object-contain"
-            data-ai-hint="abstract logo"
-            priority
-          />
-        </div>
-
-        <h1 className="text-4xl md:text-6xl font-bold mb-4 text-primary font-mono uppercase tracking-tighter animate-fadeInUp">
-          FLWFF Collective
-        </h1>
-        <p className="text-lg md:text-xl text-foreground/80 mb-8 max-w-2xl mx-auto animate-fadeInUp animation-delay-300">
-          Entre no Abismo. Acompanhe $FLWFF. Junte-se ao Círculo Interno.
-          A stablecoin para a nova economia digital — descentralizada, transparente e controlada por código.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 animate-fadeInUp animation-delay-600">
-          <Link href="/#whitelist">
-            <Button size="lg" className="bg-primary hover:bg-primary/80 text-primary-foreground font-bold text-lg px-8 py-6 rounded-full shadow-lg shadow-primary/30 transition-all duration-300 hover:scale-105">
-              Entre na Whitelist
-            </Button>
-          </Link>
-          <Link href="/#staking">
-            <Button variant="outline" size="lg" className="border-secondary text-secondary hover:bg-secondary/10 hover:text-secondary font-bold text-lg px-8 py-6 rounded-full shadow-lg shadow-secondary/20 transition-all duration-300 hover:scale-105">
-              Faça Staking $FLWFF
-            </Button>
-          </Link>
-        </div>
+    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-background">
+      {/* Background Elements */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background/90" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-secondary/20 via-background to-background" />
       </div>
 
-      {/* Decorative footer gradient Layer */}
-      <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black via-black/50 to-transparent z-[1]" />
-
-      <style jsx>{`
-        .animation-delay-300 {
-          animation-delay: 0.3s;
-        }
-        .animation-delay-600 {
-          animation-delay: 0.6s;
-        }
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .animate-fadeInUp {
-          animation: fadeInUp 0.8s ease-out forwards;
-          opacity: 0; /* Start hidden before animation */
-        }
-      `}</style>
-    </div>
+      {/* Content */}
+      <div className="container relative z-10 px-4 py-20 md:py-32 flex flex-col items-center">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+            className="mb-8"
+          >
+            {/* Logo */}
+            <div className="relative w-60 h-60 md:w-80 md:h-80 mx-auto mb-8">
+              <Image
+                src="https://res.cloudinary.com/dgyocpguk/image/upload/v1747195356/LOGO_Sfundo2_av7gff.png"
+                alt="FLWFF Glow"
+                fill
+                className="absolute z-0 opacity-40 animate-pulse"
+                priority
+              />
+              <Image
+                src="https://res.cloudinary.com/dgyocpguk/image/upload/v1747195425/LOGO_Sfundo1_yn3irt.png"
+                alt="FLWFF Logo"
+                fill
+                className="relative z-10 object-contain"
+                priority
+              />
+            </div>
+          </motion.div>
+        </div>
+        {/* Frase centralizada acima das logos */}
+        <span className="text-base md:text-lg tracking-widest mb-8 uppercase font-mono text-center block" style={{ color: '#FF1C8E' }}>
+          O $FLWFF é uma stablecoin utilitária, criada para movimentar o ecossistema de marketing digital baseado em Web3.
+        </span>
+        {/* Linha de logos inspirada na Solana */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
+          className="w-full flex flex-col items-center"
+        >
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 w-full max-w-5xl mx-auto opacity-80">
+            <Image
+              src="https://res.cloudinary.com/dgyocpguk/image/upload/v1747278580/assets_ce0c7323a97a4d91bd0baa7490ec9139_f5a7df85e0f44af9b95eb92290694bfc_dg6ugc.png"
+              alt="Logo 1"
+              width={120}
+              height={40}
+              className="h-10 w-auto object-contain"
+            />
+            <Image
+              src="https://res.cloudinary.com/dgyocpguk/image/upload/v1747278580/assets_ce0c7323a97a4d91bd0baa7490ec9139_6a83a1dd16874f22b668f9d18deefb85_iaxdbi.png"
+              alt="Logo 2"
+              width={120}
+              height={40}
+              className="h-10 w-auto object-contain"
+            />
+            <Image
+              src="https://res.cloudinary.com/dgyocpguk/image/upload/v1747278790/logo_flowoff_lrcv04.png"
+              alt="Logo 3"
+              width={120}
+              height={40}
+              className="h-10 w-auto object-contain"
+            />
+          </div>
+        </motion.div>
+      </div>
+    </section>
   );
 }

@@ -1,0 +1,23 @@
+{
+  "welcome": "",
+  "description": "",
+  "login": {
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Login",
+    "withWallet": "Login with Wallet"
+  },
+  "signup": {
+    "title": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign Up"
+  },
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "staking": "Staking",
+    "whitelist": "Whitelist"
+  }
+} 

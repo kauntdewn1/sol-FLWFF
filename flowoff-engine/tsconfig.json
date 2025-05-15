@@ -8,7 +8,14 @@
     "outDir": "lib",
     "sourceMap": true,
     "strict": true,
-    "target": "es2017"
+    "target": "es2017",
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "lib": ["es2017", "es2015", "esnext.asynciterable"],
+    "types": ["node", "firebase-functions", "firebase-admin"]
   },
   "compileOnSave": true,
   "include": [

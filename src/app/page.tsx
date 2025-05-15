@@ -1,13 +1,14 @@
-
 import DynamicAppHeader from '@/components/layout/dynamic-app-header'; // Changed: Restored DynamicAppHeader
 import HeroSection from '@/components/flwff/hero-section';
 import PageFooter from '@/components/layout/page-footer';
 import PriceDisplay from '@/components/flwff/price-display';
-import DynamicWhitelistForm from '@/components/flwff/dynamic-whitelist-form';
 import DynamicStakingSection from '@/components/flwff/dynamic-staking-section';
+import DynamicWhitelistForm from '@/components/flwff/dynamic-whitelist-form';
 import { Separator } from '@/components/ui/separator';
 import { Coins, ShieldCheck, ListPlus } from 'lucide-react';
 
+const contractAddress = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS || '';
+const tokenId = process.env.NEXT_PUBLIC_NFT_TOKEN_ID || '';
 
 export default function HomePage() {
   return (
@@ -24,9 +25,9 @@ export default function HomePage() {
           <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-6 text-center font-mono uppercase tracking-tight flex items-center justify-center">
             <Coins className="mr-3 h-8 w-8" /> Cotação $FLWFF
           </h2>
-          <PriceDisplay tokenGeckoId="flow" tokenSymbol="FLWFF" />
+          <PriceDisplay nftData={{ contractAddress, tokenId }} />
           <p className="text-xs text-muted-foreground mt-3 italic">
-            (Simulando preço $FLWFF com $FLOW via CoinGecko API)
+            (Cotação do $FLWFF baseada na EtherScan API)
           </p>
         </section>
 

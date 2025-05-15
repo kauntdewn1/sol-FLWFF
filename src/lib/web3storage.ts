@@ -1,4 +1,4 @@
-import { Web3Storage } from 'web3.storage';
+import { create } from '@web3-storage/w3up-client';
 
 function getAccessToken(): string {
   const token = process.env.NEXT_PUBLIC_WEB3_STORAGE_TOKEN;
@@ -8,19 +8,31 @@ function getAccessToken(): string {
   return token;
 }
 
-export function makeStorageClient(): Web3Storage {
-  return new Web3Storage({ token: getAccessToken() });
-}
-
-export async function storeFiles(files: File[]): Promise<string> {
-  const client = makeStorageClient();
-  const cid = await client.put(files);
-  console.log('Stored files with CID:', cid);
-  return cid;
+export async function uploadToIPFS(file: File): Promise<string> {
+  try {
+    const client = await create();
+    await client.login(getAccessToken());
+    
+    const cid = await client.uploadFile(file);
+    return cid.toString();
+  } catch (error) {
+    console.error('Error uploading to IPFS:', error);
+    throw error;
+  }
 }
 
 export async function storeJson(data: object, fileName: string = 'data.json'): Promise<string> {
-  const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
-  const file = new File([blob], fileName);
-  return storeFiles([file]);
+  try {
+    const client = await create();
+    await client.login(getAccessToken());
+    
+    const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+    const file = new File([blob], fileName);
+    
+    const cid = await client.uploadFile(file);
+    return cid.toString();
+  } catch (error) {
+    console.error('Error storing JSON to IPFS:', error);
+    throw error;
+  }
 }

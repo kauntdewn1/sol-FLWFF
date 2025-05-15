@@ -2,17 +2,17 @@
 @import '../fonts/fonts.css';
 
 // Solana variables
-@import 'solana-variables';
+@import '_solana-variables';
 
 // Bootstrap core
-@import '~bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/bootstrap';
 
 // Solana core & page-specific styles
-@import 'solana';
+@import '_solana';
 @import 'solana/blog';
 @import 'solana/community';
 @import 'solana/validators';
 @import 'solana/modals';
 
 // Solana-lib
-@import '~@solana-foundation/solana-lib/dist/styles.css';
+@import '@solana-foundation/solana-lib/dist/styles.css';

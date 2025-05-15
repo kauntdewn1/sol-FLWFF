@@ -1,4 +1,3 @@
-
 import type { Metadata } from 'next';
 import { Inter, Space_Grotesk } from 'next/font/google';
 import './globals.css';
@@ -18,11 +17,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: 'Informações da Stablecoin FLWFF',
-  description: 'Entre no Abismo. Acompanhe $FLWFF. Junte-se ao Círculo Interno.',
-  icons: {
-    icon: 'https://res.cloudinary.com/dgyocpguk/image/upload/v1747184999/ico_myg1kz.png',
-  }
+  title: 'FLWFF',
 };
 
 export default function RootLayout({
@@ -36,6 +31,7 @@ export default function RootLayout({
         <FirebaseProvider>
           <AuthProvider> {/* Wrap with AuthProvider */}
             {children}
+            <Footer />
             <Toaster />
           </AuthProvider>
         </FirebaseProvider>

@@ -1,4 +1,3 @@
-
 'use client';
 
 import type { ReactNode } from 'react';
@@ -7,9 +6,14 @@ import { Web3Auth } from '@web3auth/modal';
 import { CHAIN_NAMESPACES, type SafeEventEmitterProvider } from '@web3auth/base';
 import { OpenloginAdapter } from '@web3auth/openlogin-adapter';
 import { ethers } from 'ethers';
-import { ensureFirebaseInitialized, isFirebaseInitialized as getIsFirebaseInitialized } from '@/lib/firebase'; // Firebase Auth instance
+import { 
+  initializeFirebase, 
+  isFirebaseInitialized, 
+  ensureFirebaseInitialized 
+} from '@/lib/firebase';
 import type { User as FirebaseUser, Auth as FirebaseAuthInstanceType } from 'firebase/auth';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut as firebaseSignOut, onAuthStateChanged } from 'firebase/auth';
+import { toast } from 'react-hot-toast';
 
 // Define the user type for our context
 export interface AppUser {
@@ -19,6 +23,7 @@ export interface AppUser {
   authMethod: 'firebase_email' | 'web3auth_wallet';
   provider?: SafeEventEmitterProvider | null; // Web3Auth provider
   firebaseUser?: FirebaseUser | null; // Firebase user object
+  isWhitelisted: boolean;
 }
 
 interface AuthContextType {
@@ -68,7 +73,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
 
       const ethersProvider = new ethers.BrowserProvider(provider);
-      const signer = await ethersProvider.getSigner();
+      const signer = await ethers.getSigner(ethersProvider);
       const address = await signer.getAddress();
       console.log('[AuthContext] INFO: Signer address obtained:', address);
       const userInfo = await web3authInstance?.getUserInfo();
@@ -80,6 +85,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         email: userInfo?.email || null,
         authMethod: 'web3auth_wallet',
         provider: provider,
+        isWhitelisted: false
       });
       console.log('[AuthContext] SUCCESS: Web3 user set in context. Address:', address);
     } catch (error) {
@@ -91,25 +97,21 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   useEffect(() => {
     console.log('[AuthContext] INFO: AuthProvider useEffect for Firebase init triggered. FirebaseReady:', firebaseReady);
-    const initFirebase = () => {
+    const initFirebase = async () => {
       console.log('[AuthContext] INFO: initFirebase called.');
       try {
-        if (getIsFirebaseInitialized()) {
-          const { auth: authInstance } = ensureFirebaseInitialized();
-          setFirebaseAuthInstance(authInstance);
-          setFirebaseReady(true);
-          console.log('[AuthContext] SUCCESS: Firebase initialized successfully and auth instance set.');
-        } else {
-          console.warn("[AuthContext] WARN: Firebase not initialized at AuthProvider mount via getIsFirebaseInitialized. Email/password auth might be unavailable.");
-          setFirebaseReady(false);
-        }
+        const { auth: authInstance } = initializeFirebase();
+        setFirebaseAuthInstance(authInstance);
+        setFirebaseReady(true);
+        console.log('[AuthContext] SUCCESS: Firebase initialized successfully.');
       } catch (error) {
-        console.error("[AuthContext] CRITICAL: Failed to ensure Firebase initialization in initFirebase:", error);
+        console.error('[AuthContext] ERROR: Failed to initialize Firebase:', error);
         setFirebaseReady(false);
       }
     };
+
     initFirebase();
-  }, []); // Intentionally empty to run once on mount for Firebase Auth setup
+  }, []);
 
 
   useEffect(() => {
@@ -126,39 +128,28 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       console.log('[AuthContext] INFO: Initializing Web3Auth...');
       try {
         const web3auth = new Web3Auth({
-          clientId,
-          web3AuthNetwork: 'sapphire_mainnet',
+          clientId: process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID!,
           chainConfig: {
-            chainNamespace: CHAIN_NAMESPACES.EIP155,
-            chainId: '0x1', 
-            rpcTarget: 'https://rpc.ankr.com/eth',
-            displayName: 'Ethereum Mainnet',
-            blockExplorer: 'https://etherscan.io',
-            ticker: 'ETH',
-            tickerName: 'Ethereum',
+            chainNamespace: CHAIN_NAMESPACES.SOLANA,
+            chainId: "0x1",
+            rpcTarget: "https://api.mainnet-beta.solana.com",
           },
-          uiConfig: {
-            theme: "dark",
-            loginMethodsOrder: ["google", "facebook", "twitter", "discord", "email_passwordless"],
-            defaultLanguage: "pt-BR",
-            modalZIndex: "99999",
-          }
+          authMode: "DAPP",
+          appName: "FLWFF Collective",
+          privateKeyProvider: new OpenloginAdapter({
+            adapterSettings: {
+              uxMode: 'popup',
+              whiteLabel: {
+                name: "FLWFF Collective",
+                logoLight: "https://res.cloudinary.com/dgyocpguk/image/upload/v1747181760/2_zucoyt.png",
+                logoDark: "https://res.cloudinary.com/dgyocpguk/image/upload/v1747181760/2_zucoyt.png",
+                defaultLanguage: "pt-BR",
+                dark: true, 
+              },
+            },
+          }),
         });
 
-        const openloginAdapter = new OpenloginAdapter({
-          adapterSettings: {
-            uxMode: 'popup',
-             whiteLabel: {
-              name: "FLWFF Collective",
-              logoLight: "https://res.cloudinary.com/dgyocpguk/image/upload/v1747181760/2_zucoyt.png",
-              logoDark: "https://res.cloudinary.com/dgyocpguk/image/upload/v1747181760/2_zucoyt.png",
-              defaultLanguage: "pt-BR",
-              dark: true, 
-            },
-          },
-        });
-        web3auth.configureAdapter(openloginAdapter);
-        
         await web3auth.initModal();
         setWeb3authInstance(web3auth);
         console.log('[AuthContext] SUCCESS: Web3Auth modal initialized.');
@@ -192,6 +183,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
               email: fbUser.email,
               authMethod: 'firebase_email',
               firebaseUser: fbUser,
+              isWhitelisted: false
             });
           } else {
             console.log('[AuthContext] INFO: Firebase user detected, but Web3Auth user session is active. Prioritizing Web3Auth user. Wallet:', user.walletAddress);
@@ -327,6 +319,43 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     } finally {
         setLoading(false);
         console.log('[AuthContext] INFO: Logout actions finished. Loading set to false.');
+    }
+  };
+
+  const handleWeb3AuthLogin = async () => {
+    try {
+      console.log('[AuthContext] INFO: Iniciando login Web3Auth');
+      if (!web3authInstance) {
+        console.error('[AuthContext] ERROR: Web3Auth não está inicializado');
+        return;
+      }
+
+      const provider = await web3authInstance.connect();
+      if (!provider) {
+        console.error('[AuthContext] ERROR: Provedor não disponível após conexão');
+        return;
+      }
+
+      const userInfo = await web3authInstance.getUserInfo();
+      const accounts = await provider.request({ method: "eth_accounts" });
+      const address = accounts[0];
+
+      if (!address) {
+        console.error('[AuthContext] ERROR: Endereço da carteira não encontrado');
+        return;
+      }
+
+      console.log('[AuthContext] SUCCESS: Login Web3Auth bem-sucedido');
+      setUser({
+        id: userInfo.email || address,
+        email: userInfo.email || '',
+        walletAddress: address,
+        authMethod: 'web3auth_wallet',
+        isWhitelisted: false
+      });
+    } catch (error) {
+      console.error('[AuthContext] ERROR: Falha no login Web3Auth:', error);
+      toast.error('Falha ao conectar carteira. Tente novamente.');
     }
   };
 

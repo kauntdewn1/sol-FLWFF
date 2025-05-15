@@ -1,7 +1,7 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
-import * as express from "express";
-import * as cors from "cors";
+import express, { Request, Response } from "express";
+import cors from "cors";
 
 admin.initializeApp();
 
@@ -9,7 +9,7 @@ const app = express();
 app.use(cors({ origin: true }));
 app.use(express.json());
 
-app.post("/", async (req, res) => {
+app.post("/", async (req: Request, res: Response) => {
   const { walletAddress } = req.body;
 
   if (!walletAddress || typeof walletAddress !== "string") {

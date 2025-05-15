@@ -16,7 +16,7 @@ import Link, { InlineLink } from '../../utils/Link';
 const CopyrightRow = () => {
   return (
     <span className={styles['solFooter__copyright']}>
-      {`© ${new Date().getFullYear()} Solana Foundation. All rights reserved.`}
+      {`© ${new Date().getFullYear()} FLOW Foundation. All rights reserved. | Idealizado por MELLØ`}
     </span>
   );
 };

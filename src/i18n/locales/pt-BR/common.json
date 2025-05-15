@@ -1,0 +1,23 @@
+{
+  "welcome": "",
+  "description": "",
+  "login": {
+    "title": "Entrar",
+    "email": "E-mail",
+    "password": "Senha",
+    "submit": "Entrar",
+    "withWallet": "Entrar com Carteira"
+  },
+  "signup": {
+    "title": "Cadastrar",
+    "email": "E-mail",
+    "password": "Senha",
+    "submit": "Cadastrar"
+  },
+  "navigation": {
+    "home": "Início",
+    "about": "Sobre",
+    "staking": "Staking",
+    "whitelist": "Whitelist"
+  }
+} 
